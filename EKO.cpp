@@ -1,44 +1,53 @@
-#include <cstdio>
-
+//code contributed by shubham khanna www.github.com/shubham-khanna
+#include <iostream>
+#include <algorithm>
 using namespace std;
-
+#define ll long long
+bool f(ll a[],ll n,ll m,ll h)
+{
+	ll cutted=0;
+	for(ll i=0;i<n;i++)
+	{
+		if(a[i]>h)
+		{
+			cutted+=a[i]-h;
+		}
+	}
+	return cutted>=m;
+}
+ll bs(ll a[],ll n,ll m)
+{
+	ll s=0;
+	ll e=a[n-1];
+	ll h=0;
+	while(s<=e)
+	{
+		ll mid=(s+e)/2;
+		if(f(a,n,m,mid))
+		{
+			s=mid+1;
+			if(mid>h)
+			{
+				h=mid;
+			}
+		}
+		else
+		{
+			e=mid-1;
+		}
+	}
+	return h;
+}
 int main() {
-    long long int N, i, M;
-    scanf( "%lld%lld", &N, &M );
-    int array[ N ];
-    long long int max = 0, h = 0; 
-    long long int beg, end, mid;
-    long long int cutted;
-    for ( i = 0; i < N; ++i ) {
-        scanf( "%d", array + i );
-        if ( array[ i ] > max ) {
-            max = array[ i ];
-        }
-    }
-    beg = 0;
-    end = max;
-    while ( beg <= end ) {
-        mid = ( beg + end ) / 2;
-        cutted = 0;
-        for ( i = 0; i < N; ++i ) {
-            if ( array[ i ] - mid > 0 ) {
-                cutted += array[ i ] - mid;
-            }
-        }
-        if ( cutted > M ) {
-            beg = mid + 1;
-            if ( mid > h ) {
-                h = mid;
-            }
-        }
-        else if ( cutted < M ) {
-            end = mid - 1;
-        }
-        else {
-            h = mid;
-            break;
-        }
-    }
-    printf( "%lld\n", h );
-    return 0;
+	// your code goes here
+	ll n,m;
+	cin>>n>>m;
+	ll a[n];
+	for(ll i=0;i<n;i++)
+	{
+		cin>>a[i];
+	}
+	sort(a,a+n);
+	cout<<bs(a,n,m);
+	return 0;
 }
